@@ -2,12 +2,12 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=AutoItv11.ico
 #AutoIt3Wrapper_UseX64=y
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.3
-#AutoIt3Wrapper_Res_ProductVersion=1.0.0.3
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.4
+#AutoIt3Wrapper_Res_ProductVersion=1.0.0.4
 #AutoIt3Wrapper_Run_After=copy "%outx64%" "%userprofile%\Pictures\Background\lock-screen.exe"
 #AutoIt3Wrapper_Run_After=copy "%outx64%" "lock-screen.exe"
-#AutoIt3Wrapper_Run_After=copy "%outx64%" "C:\Users\ma\Nextcloud\Cramy\Github\lock-screen"
-#AutoIt3Wrapper_Run_After=copy "%in%" "C:\Users\ma\Nextcloud\Cramy\Github\lock-screen"
+#AutoIt3Wrapper_Run_After=copy "%outx64%" "D:\Nextcloud\Cramy\Github\lock-screen"
+#AutoIt3Wrapper_Run_After=copy "%in%" "D:\Nextcloud\Cramy\Github\lock-screen"
 #AutoIt3Wrapper_Run_Before=WriteTimestampAndVersion.exe "%in%"
 #AutoIt3Wrapper_Run_Tidy=y
 #Tidy_Parameters=/reel
@@ -15,11 +15,13 @@
 #Au3Stripper_Parameters=/mo
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #Region    ;Timestamp =====================
-#    Last compile at : 2025/10/02 13:17:08
+#    Last compile at : 2025/11/26 07:34:17
 #EndRegion ;Timestamp =====================
 #cs -----------------------------------------------------------------------------
 
 	Createdd by Marc Arm
+	V1.0.0.4 :	24.09.2025
+				Fixed: no image and under the task bar: Wait util it gets internet and wait until the bar is there and bigger than 10 pix.
 	V1.0.0.3 :	24.09.2025
 				Unsplash changed the random, so I had to get some other way arround
 				all in jpg
@@ -74,8 +76,12 @@ If $CmdLine[0] And $CmdLine[1] = "-a" Then
 EndIf
 
 Do
+	Sleep(100)
+Until Ping('www.google.ch')
+
+Do
 	$bar = WinGetPos("[CLASS:Shell_TrayWnd]")
-Until IsArray($bar)
+Until IsArray($bar) And $bar[3] > 10
 
 $sUglyLink = "https://api.unsplash.com/search/photos?client_id=***ClientID***&query=***Query***&content_filter=high&page=***Random***&per_page=***Per_page***"
 
